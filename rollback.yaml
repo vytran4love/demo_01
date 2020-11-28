@@ -1,0 +1,20 @@
+---
+- hosts: "{{ host_name }}"
+  gather_facts: true
+  become: true
+  vars:
+    ansible_ssh_user: "ubuntu"
+    ansible_ssh_private_key_file: "~/.ssh/ttt_dev_new.pem"
+    ansible_python_interpreter: /usr/bin/python3
+  
+    ansistrano_deploy_from: "{{ build_dir }}/"
+   
+    ansistrano_deploy_to: "{{ deploy_dir }}"
+    ansistrano_version_dir: "releases" # Releases folder name
+    ansistrano_current_dir: "current" # Softlink name. You should rarely changed it.
+    ansistrano_rollback_to_release: "" # If specified, the application will be rolled back to this release version; previous release otherwise.
+    ansistrano_remove_rolled_back: yes # You can change this setting in order to keep the rolled back release in the server for later inspection
+    ansistrano_allow_anonymous_stats: yes
+    
+  roles:
+    - ansistrano.rollback
