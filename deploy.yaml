@@ -1,0 +1,21 @@
+---
+- hosts: "{{ host_name }}"
+  gather_facts: true
+  become: true
+  vars:
+    ansible_ssh_user: "ubuntu"
+    ansible_ssh_private_key_file: "~/.ssh/ttt_dev_new.pem"
+    ansible_python_interpreter: /usr/bin/python3
+    ansistrano_deploy_from: "{{ build_dir }}/"
+    ansistrano_deploy_to: "{{ deploy_dir }}"
+    ansistrano_keep_releases: 1
+    ansistrano_version_dir          : "releases"
+    ansistrano_current_dir          : "current"
+    ansistrano_allow_anonymous_stats: yes
+
+    ansistrano_deploy_via: rsync
+    # ansistrano_current_via: rsync
+    ansistrano_rsync_extra_params: "--exclude=.git"
+
+  roles:
+    - ansistrano.deploy
