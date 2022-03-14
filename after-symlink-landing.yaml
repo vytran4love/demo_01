@@ -6,11 +6,11 @@
   file:
     path: "{{ deployed_dir }}"
     state: directory
-    owner: www-data
-    group: www-data
+    owner: ubuntu
+    group: ubuntu
     mode: 0775
     recurse: yes
 - name: Restart pm2 service "{{ deploy_dir }}"
   shell: |
     pm2 restart nextjs
-  become_user: www-data
+  become_user: ubuntu
