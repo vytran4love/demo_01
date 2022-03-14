@@ -1,0 +1,16 @@
+---
+- name: Determine the build dir
+  set_fact:
+    deployed_dir: "{{ ansistrano_release_path.stdout }}"
+- name: Change owner and permission of "{{ deploy_dir }}"
+  file:
+    path: "{{ deployed_dir }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0775
+    recurse: yes
+- name: Restart pm2 service "{{ deploy_dir }}"
+  shell: |
+    pm2 restart nextjs
+  become_user: www-data
