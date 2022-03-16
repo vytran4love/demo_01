@@ -3,7 +3,7 @@
   set_fact:
     deployed_dir: "{{ ansistrano_release_path.stdout }}"
 
-- name: Change owner and permission of "{{ deploy_dir }}"
+- name: Change owner and permission of "{{ deployed_dir }}"
   file:
     path: "{{ deployed_dir }}"
     state: directory
@@ -12,8 +12,9 @@
     mode: 0775
     recurse: yes
 
-- name: Run build service "{{ deploy_dir }}"
+- name: Run build service "{{ deployed_dir }}"
   shell: |
+    cd "{{ deployed_dir }}"
     yarn install
     yarn build
   become_user: ubuntu

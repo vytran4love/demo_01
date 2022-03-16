@@ -10,7 +10,7 @@
     group: ubuntu
     mode: 0775
     recurse: yes
-- name: Restart pm2 service "{{ deploy_dir }}"
+- name: Restart pm2 service "{{ deployed_dir }}"
   shell: |
-    pm2 restart nextjs
+    cd "{{ deployed_dir }}" && pm2 restart nextjs
   become_user: ubuntu
