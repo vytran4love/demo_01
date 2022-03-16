@@ -14,5 +14,5 @@
 
 - name: Restart pm2 service "{{ deploy_dir }}"
   shell: |
-    cd "{{ deployed_dir }}" && pm2 restart ecosystem.config.js
+    cd "{{ deployed_dir }}" && pm2 delete ecosystem.config.js && pm2 start ecosystem.config.js
   become_user: ubuntu
