@@ -13,7 +13,7 @@
 #  pm2 start yarn --interpreter bash --name nextjs -- start
 - name: Run build service "{{ deployed_dir }}"
   shell: |
-    cd "{{ deploy_dir }}" && yarn install && yarn build
+    cd "{{ deploy_dir }}/current" && yarn install && yarn build
   become_user: ubuntu
 
 - name: Restart pm2 service "{{ deploy_dir }}"
