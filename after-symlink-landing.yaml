@@ -11,3 +11,8 @@
     mode: 0775
     recurse: yes
 #  pm2 start yarn --interpreter bash --name nextjs -- start
+
+- name: Restart pm2 service "{{ deploy_dir }}"
+  shell: |
+    cd "{{ deployed_dir }}" && pm2 restart ecosystem.config.js
+  become_user: ubuntu

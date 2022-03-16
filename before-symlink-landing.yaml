@@ -11,10 +11,10 @@
     group: ubuntu
     mode: 0775
     recurse: yes
-#- name: Run build service "{{ deployed_dir }}"
-#  shell: |
-#    cd "{{ deployed_dir }}" && yarn install && yarn build
-#  become_user: ubuntu
+- name: Run build service "{{ deployed_dir }}"
+  shell: |
+    cd "{{ deployed_dir }}" && yarn install && yarn build
+  become_user: ubuntu
 #
 #- name: Restart pm2 service "{{ deploy_dir }}"
 #  shell: |
