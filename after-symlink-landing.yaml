@@ -11,12 +11,3 @@
     mode: 0775
     recurse: yes
 #  pm2 start yarn --interpreter bash --name nextjs -- start
-- name: Run build service "{{ deployed_dir }}"
-  shell: |
-    cd "{{ deploy_dir }}/current" && yarn install && yarn build
-  become_user: ubuntu
-
-- name: Restart pm2 service "{{ deploy_dir }}"
-  shell: |
-    cd "{{ deploy_dir }}/current" && pm2 restart nextjs
-  become_user: ubuntu
