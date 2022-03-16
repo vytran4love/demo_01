@@ -12,6 +12,8 @@
     mode: 0775
     recurse: yes
 
+
+#  pm2 start yarn --interpreter bash --name nextjs -- start
 - name: Run build service "{{ deployed_dir }}"
   shell: |
     cd "{{ deployed_dir }}"
