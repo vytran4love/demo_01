@@ -1,2 +1,6 @@
-[controlmachine]
-localhost ansible_connection=local
+all:
+  children:
+    controlmachine:
+      hosts:
+        localhost:
+          ansible_connection: local

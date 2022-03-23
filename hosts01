@@ -1,6 +1,2 @@
-all:
-  children:
-    controlmachine:
-      hosts:
-        localhost:
-          ansible_connection: local
+[controlmachine]
+localhost ansible_connection=local
