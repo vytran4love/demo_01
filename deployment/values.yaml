@@ -4,10 +4,11 @@ tier: application
 replicaCount: 1
 
 image:
-  repository: 8899898233123.dkr.ecr.ap-southeast-1.amazonaws.com/backend-api
+  registry: 136930776777.dkr.ecr.ap-southeast-1.amazonaws.com
+  repository: project-a/nginx-web-app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: __docker-tag__
 
 imagePullSecrets: []
 nameOverride: ""
