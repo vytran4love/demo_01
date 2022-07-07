@@ -1,7 +1,7 @@
 FROM php:7.4-fpm
 
 # Arguments defined in docker-compose.yml
-ARG user=www-data
+ARG user=1000
 ARG uid=1000
 
 # Install system dependencies
