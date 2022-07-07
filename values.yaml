@@ -1,0 +1,134 @@
+name: backend-api
+tier: application
+
+replicaCount: 1
+
+image:
+  repository: 136930776777.dkr.ecr.ap-southeast-1.amazonaws.com
+  repository: project-a/nginx-web-app
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: __docker-tag__
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+nginxService:
+  name: nginx
+  type: NodePort
+  session: None
+  externalPort: 80
+  internalPort: 8080
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "backend-api"
+
+podAnnotations: {}
+terminationGracePeriodSeconds: 80
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# service:
+#   type: ClusterIP
+#   port: 80
+
+# ingress:
+#   enabled: false
+#   className: ""
+#
+#   annotations:
+#     kubernetes.io/ingress.class: nginx
+#     meta.helm.sh/release-name: dev-backend
+#     meta.helm.sh/release-namespace: vytran-test
+#     nginx.ingress.kubernetes.io/affinity: cookie
+#     nginx.ingress.kubernetes.io/backend-protocol: http
+#     nginx.ingress.kubernetes.io/limit-rpm: "200"
+#     nginx.ingress.kubernetes.io/limit-rps: "10"
+#     nginx.ingress.kubernetes.io/proxy-body-size: 150m
+#     nginx.ingress.kubernetes.io/server-snippet: |
+#       real_ip_header X-Forwarded-For;
+#       set_real_ip_from 0.0.0.0/0;
+#       # if ($http_x_forwarded_proto = 'http'){
+#       #   return 301 https://$host$request_uri;
+#       # }
+#     nginx.ingress.kubernetes.io/session-cookie-hash: sha1
+#     nginx.ingress.kubernetes.io/session-cookie-name: route
+#     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+#     #nginx.ingress.kubernetes.io/whitelist-source-range: 18.140.179.180/32, 115.73.220.227/32, 52.76.76.119/32, 35.156.57.128/32, 35.157.1.80/32
+#     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+#     nginx.org/redirect-to-https: "true"
+#   hosts:
+#     - host: backendapi.vytran.tk
+#       paths:
+#         - path: /
+#           pathType: ImplementationSpecific
+# tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+config:
+  nginx.conf: |-
+    server {
+      listen 0.0.0.0:8080;
+      root /app/public;
+      server_name _;
+
+      location / {
+        try_files $uri /index.php$is_args$args;
+      }
+
+      location ~ ^/index\.php(/|$) {
+        include fastcgi.conf;
+        fastcgi_pass app:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        internal;
+      }
+
+      location ~ \.php$ {
+        return 404;
+      }
+    }
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
