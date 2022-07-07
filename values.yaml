@@ -4,7 +4,7 @@ tier: application
 replicaCount: 1
 
 image:
-  repository: 136930776777.dkr.ecr.ap-southeast-1.amazonaws.com
+  registry: 136930776777.dkr.ecr.ap-southeast-1.amazonaws.com
   repository: project-a/nginx-web-app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
