@@ -41,39 +41,39 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: tcp
-              containerPort: 9000
+              containerPort: 3000
           volumeMounts:
             - name: shared-files
               mountPath: /var/www
           lifecycle:
             postStart:
               exec:
-                command: ["/bin/sh", "-c", "cp -r /app/. /var/www"]
+                command: ["/bin/sh", "-c", "cp -r /web/. /var/www"]
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        - name: {{ include "backend-api.fullname" . }}-nginx
-          image: "nginx:1.21-alpine"
-          imagePullPolicy: {{ default "" .Values.image.pullPolicy | quote }}
-          ports:
-            - name: http
-              containerPort: 80
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http
-            initialDelaySeconds: 30
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
-            initialDelaySeconds: 5
-            timeoutSeconds: 1
-          volumeMounts:
-            - name: shared-files
-              mountPath: /app
-            - name: nginx-config
-              mountPath: /etc/nginx/conf.d
+     #   - name: {{ include "backend-api.fullname" . }}-nginx
+     #     image: "nginx:1.21-alpine"
+     #     imagePullPolicy: {{ default "" .Values.image.pullPolicy | quote }}
+     #     ports:
+     #       - name: http
+     #         containerPort: 80
+     #     livenessProbe:
+     #       httpGet:
+     #         path: /health
+     #         port: http
+     #       initialDelaySeconds: 30
+     #       timeoutSeconds: 5
+     #     readinessProbe:
+     #       httpGet:
+     #         path: /health
+     #         port: http
+     #       initialDelaySeconds: 5
+     #       timeoutSeconds: 1
+     #     volumeMounts:
+     #       - name: shared-files
+     #         mountPath: /web
+     #       - name: nginx-config
+     #         mountPath: /etc/nginx/conf.d
       volumes:
         - name: nginx-config
           configMap:
